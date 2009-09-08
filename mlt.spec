@@ -1,16 +1,12 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.4.0
-Release:        3%{?dist}
+Version:        0.4.4
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-#patch to fix link motionest against libm
-Patch0:         mlt-0.4.0-linker.patch
-#patch to fix license info of MLT++
-Patch1:         mlt-0.4.0-license.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 
@@ -55,8 +51,6 @@ building applications which use %{name}.
 
 %prep
 %setup -q
-%patch0 -p1 -b .linker
-%patch1 -p1 -b .license
 find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
 chmod -x demo/demo
@@ -75,6 +69,7 @@ sed -i -e '/ffast-math/d' configure
 %endif
         --qimage-libdir=%{_qt4_libdir}          \
         --qimage-includedir=%{_qt4_headerdir}   \
+        --rename-melt=%{name}-melt              \
         --avformat-swscale
 
 make %{?_smp_mflags}
@@ -98,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING GPL NEWS README*
-%{_bindir}/melt
+%{_bindir}/%{name}-melt
 %{_libdir}/%{name}
 %{_libdir}/*.so.*
 %{_datadir}/%{name}
@@ -113,6 +108,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 07 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.4-1
+- new version
+- renamed melt binary to mlt-melt
+
+* Wed May 20 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.2-1
+- new version
+- removed obsolete patches
+
 * Wed May 20 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.0-3
 - added linker and license patches
 - set license of MLT devel subpackage to LGPLv2+ 
