@@ -1,6 +1,12 @@
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
+%global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
+%global php_version %(php-config --version 2>/dev/null || echo 0)
+
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.4.4
+Version:        0.4.6
 Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
@@ -24,7 +30,9 @@ BuildRequires:  libsamplerate-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  sox-devel
-
+BuildRequires:  swig
+BuildRequires:  python-devel
+BuildRequires:  php-devel
 
 %description
 MLT is an open source multimedia framework, designed and developed for 
@@ -43,10 +51,25 @@ Group:          Development/Libraries
 Requires:       pkgconfig
 Requires:       %{name} = %{version}-%{release}
 
+%package python
+Requires: python
+Requires: %{name} = %{version}-%{release}
+Summary: Python package to work with MLT
+
+%package php
+Requires: php
+Requires: %{name} = %{version}-%{release}
+Summary: PHP package to work with MLT
 
 %description devel
 The %{name}-devel package contains the header files and static libraries for
 building applications which use %{name}.
+
+%description python
+This module allows to work with MLT using python. 
+
+%description php
+This module allows to work with MLT using PHP. 
 
 
 %prep
@@ -60,6 +83,7 @@ sed -i -e '/ffast-math/d' configure
 
 
 %build
+#export STRIP=/bin/true
 %configure \
         --enable-gpl                            \
         --enable-motion-est                     \
@@ -70,7 +94,8 @@ sed -i -e '/ffast-math/d' configure
         --qimage-libdir=%{_qt4_libdir}          \
         --qimage-includedir=%{_qt4_headerdir}   \
         --rename-melt=%{name}-melt              \
-        --avformat-swscale
+        --avformat-swscale                      \
+        --swig-languages='python php'
 
 make %{?_smp_mflags}
 
@@ -78,6 +103,13 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
+install -d $RPM_BUILD_ROOT%{python_sitelib}
+install -d $RPM_BUILD_ROOT%{python_sitearch}
+install -d $RPM_BUILD_ROOT%{php_extdir}
+install -pm 0644 src/swig/python/%{name}.py $RPM_BUILD_ROOT%{python_sitelib}/
+install -pm 0755 src/swig/python/_%{name}.so $RPM_BUILD_ROOT%{python_sitearch}/
+install -pm 0755 src/swig/php/%{name}.so $RPM_BUILD_ROOT%{php_extdir}/
+
 mv src/modules/motion_est/README README.motion_est
 
 %clean
@@ -99,6 +131,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 
 
+%files python
+%defattr(-,root,root,-)
+%{python_sitelib}/%{name}.py
+%{python_sitelib}/%{name}.pyc
+%{python_sitelib}/%{name}.pyo
+%{python_sitearch}/_%{name}.so
+
+%files php
+%defattr(-,root,root,-)
+%{php_extdir}/%{name}.so
+
 %files devel
 %defattr(-,root,root,-)
 %doc docs/* demo
@@ -108,6 +151,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Oct 07 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.6-1
+- new version
+- added subpackages for: python, PHP
+
 * Mon Sep 07 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.4-1
 - new version
 - renamed melt binary to mlt-melt
