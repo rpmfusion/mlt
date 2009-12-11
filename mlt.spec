@@ -1,3 +1,5 @@
+%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts Config::CONFIG["sitelibdir"] ')}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
@@ -6,8 +8,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.4.6
-Release:        2%{?dist}
+Version:        0.4.10
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -33,6 +35,7 @@ BuildRequires:  sox-devel
 BuildRequires:  swig
 BuildRequires:  python-devel
 BuildRequires:  php-devel
+BuildRequires:  ruby-devel ruby
 
 %description
 MLT is an open source multimedia framework, designed and developed for 
@@ -56,6 +59,11 @@ Requires: python
 Requires: %{name} = %{version}-%{release}
 Summary: Python package to work with MLT
 
+%package ruby
+Requires: ruby(abi) = 1.8
+Requires: %{name} = %{version}-%{release}
+Summary: Ruby package to work with MLT
+
 %package php
 Requires: php
 Requires: %{name} = %{version}-%{release}
@@ -68,6 +76,9 @@ building applications which use %{name}.
 %description python
 This module allows to work with MLT using python. 
 
+%description ruby
+This module allows to work with MLT using ruby.
+
 %description php
 This module allows to work with MLT using PHP. 
 
@@ -76,7 +87,10 @@ This module allows to work with MLT using PHP.
 %setup -q
 find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
+chmod 644 src/modules/qimage/kdenlivetitle_wrapper.cpp
+chmod 644 src/modules/kdenlive/filter_freeze.c
 chmod -x demo/demo
+
 # Don't optimize (breaks debugging)
 sed -i -e '/fomit-frame-pointer/d' configure
 sed -i -e '/ffast-math/d' configure
@@ -95,7 +109,7 @@ sed -i -e '/ffast-math/d' configure
         --qimage-includedir=%{_qt4_headerdir}   \
         --rename-melt=%{name}-melt              \
         --avformat-swscale                      \
-        --swig-languages='python php'
+        --swig-languages='python php ruby'
 
 make %{?_smp_mflags}
 
@@ -105,8 +119,13 @@ rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 install -d $RPM_BUILD_ROOT%{python_sitelib}
 install -d $RPM_BUILD_ROOT%{python_sitearch}
+install -d $RPM_BUILD_ROOT%{ruby_sitelib}
+install -d $RPM_BUILD_ROOT%{ruby_sitearch}
 install -d $RPM_BUILD_ROOT%{php_extdir}
 install -pm 0644 src/swig/python/%{name}.py $RPM_BUILD_ROOT%{python_sitelib}/
+install -pm 0755 src/swig/ruby/play.rb $RPM_BUILD_ROOT%{ruby_sitelib}/
+install -pm 0755 src/swig/ruby/thumbs.rb $RPM_BUILD_ROOT%{ruby_sitelib}/
+install -pm 0755 src/swig/ruby/%{name}.so $RPM_BUILD_ROOT%{ruby_sitearch}/
 install -pm 0755 src/swig/python/_%{name}.so $RPM_BUILD_ROOT%{python_sitearch}/
 install -pm 0755 src/swig/php/%{name}.so $RPM_BUILD_ROOT%{php_extdir}/
 
@@ -138,6 +157,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/%{name}.pyo
 %{python_sitearch}/_%{name}.so
 
+%files ruby
+%defattr(-,root,root,-)
+%{ruby_sitelib}/play.rb
+%{ruby_sitelib}/thumbs.rb
+%{ruby_sitearch}/%{name}.so
+
 %files php
 %defattr(-,root,root,-)
 %{php_extdir}/%{name}.so
@@ -151,8 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Oct 21 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.4.6-2
-- rebuild for new ffmpeg
+* Wed Dec 09 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.10-1
+- new version
+- added subpackage for ruby
 
 * Wed Oct 07 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.6-1
 - new version
