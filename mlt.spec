@@ -8,7 +8,7 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.4.10
+Version:        0.5.0
 Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
@@ -176,6 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Feb 18 2010 Zarko Pintar <zarko.pintar@gmail.com> - 0.5.0-1
+- new version
+
 * Wed Dec 09 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.4.10-1
 - new version
 - added subpackage for ruby
