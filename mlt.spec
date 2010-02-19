@@ -104,6 +104,7 @@ sed -i -e '/ffast-math/d' configure
 %ifarch ppc ppc64 
         --disable-mmx                           \
         --disable-sse                           \
+        --disable-xine                          \
 %endif
         --qimage-libdir=%{_qt4_libdir}          \
         --qimage-includedir=%{_qt4_headerdir}   \
