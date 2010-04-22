@@ -8,8 +8,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.5.0
-Release:        2%{?dist}
+Version:        0.5.4
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -177,6 +177,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Apr 21 2010 Ryan Rix <ry@n.rix.si> - 0.5.4-1
+- New upstream version to fix reported crashes against Kdenlive
+
 * Fri Feb 19 2010 Zarko Pintar <zarko.pintar@gmail.com> - 0.5.0-2
 - disabled xine module for PPC arch.
 
