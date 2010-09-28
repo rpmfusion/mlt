@@ -8,8 +8,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.5.4
-Release:        1%{?dist}
+Version:        0.5.10
+Release:        2%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -177,6 +177,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Sep 27 2010 Ryan Rix <ry@n.rix.si> - 0.5.10-2
+- Rebuild with sources >.<
+
+* Mon Sep 27 2010 Ryan Rix <ry@n.rix.si> - 0.5.10-1
+- New upstream version
+
 * Wed Apr 21 2010 Ryan Rix <ry@n.rix.si> - 0.5.4-1
 - New upstream version to fix reported crashes against Kdenlive
 
