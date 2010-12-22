@@ -1,0 +1,21 @@
+diff -Nur mlt-0.5.4/src/modules/xine/yadif.c mlt-0.5.4-fedora/src/modules/xine/yadif.c
+--- mlt-0.5.4/src/modules/xine/yadif.c	2010-04-19 21:32:40.000000000 -0700
++++ mlt-0.5.4-fedora/src/modules/xine/yadif.c	2010-12-21 17:17:22.052608025 -0700
+@@ -265,7 +265,7 @@
+ #endif
+ 
+ // ================= SSE2 =================
+-#ifdef USE_SSE2
++#if defined(USE_SSE2) && defined(ARCH_X86_64)
+ #define PABS(tmp,dst) \
+             "pxor     "#tmp", "#tmp" \n\t"\
+             "psubw    "#dst", "#tmp" \n\t"\
+@@ -365,7 +365,7 @@
+ 		filter_line = filter_line_ssse3;
+ 	else
+ #endif
+-#ifdef USE_SSE2
++#if defined(USE_SSE2) && defined(ARCH_X86_64)
+ 	if (cpu & AVS_CPU_SSE2)
+ 		filter_line = filter_line_sse2;
+ 	else
