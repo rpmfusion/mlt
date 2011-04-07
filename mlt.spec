@@ -8,16 +8,14 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.5.4
-Release:        2%{?dist}
+Version:        0.7.0
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-Patch0:         mlt-inline_assembly-f14.patch
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
@@ -92,7 +90,6 @@ chmod 644 src/modules/qimage/kdenlivetitle_wrapper.cpp
 chmod 644 src/modules/kdenlive/filter_freeze.c
 chmod -x demo/demo
 
-%patch0 -p1
 
 # Don't optimize (breaks debugging)
 sed -i -e '/fomit-frame-pointer/d' configure
@@ -180,6 +177,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Apr 7 2011 Ryan Rix <ry@n.rix.si> - 0.7.0
+- New upstream
+
 * Tue Dec 21 2010 Ryan Rix <ry@n.rix.si> - 0.5.4-2
 - Fix build, needed a patch from mlt's git repo.
 
