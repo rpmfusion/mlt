@@ -35,6 +35,7 @@ BuildRequires:  swig
 BuildRequires:  python-devel
 BuildRequires:  php-devel
 BuildRequires:  ruby-devel ruby
+BuildRequires:  SDL_image-devel
 
 %description
 MLT is an open source multimedia framework, designed and developed for 
@@ -177,7 +178,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Thu Apr 7 2011 Ryan Rix <ry@n.rix.si> - 0.7.0
+* Sun Apr 10 2011 Ryan Rix <ry@n.rix.si> - 0.7.0-2
+- Add SDL_image-devel BR per Kdenlive wiki page
+
+* Thu Apr 7 2011 Ryan Rix <ry@n.rix.si> - 0.7.0-1
 - New upstream
 
 * Tue Dec 21 2010 Ryan Rix <ry@n.rix.si> - 0.5.4-2
