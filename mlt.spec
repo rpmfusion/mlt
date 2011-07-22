@@ -8,8 +8,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.7.0
-Release:        2%{?dist}
+Version:        0.7.4
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -154,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files python
 %defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING GPL NEWS README*
 %{python_sitelib}/%{name}.py
 %{python_sitelib}/%{name}.pyc
 %{python_sitelib}/%{name}.pyo
@@ -161,23 +162,28 @@ rm -rf $RPM_BUILD_ROOT
 
 %files ruby
 %defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING GPL NEWS README*
 %{ruby_sitelib}/play.rb
 %{ruby_sitelib}/thumbs.rb
 %{ruby_sitearch}/%{name}.so
 
 %files php
 %defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING GPL NEWS README*
 %{php_extdir}/%{name}.so
 
 %files devel
 %defattr(-,root,root,-)
-%doc docs/* demo
+%doc AUTHORS ChangeLog COPYING GPL NEWS README* docs/* demo
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_includedir}/*
 
 
 %changelog
+* Thu Jul 21 2011 Ryan Rix <ry@n.rix.si> - 0.7.4-1
+- New upstream
+
 * Sun Apr 10 2011 Ryan Rix <ry@n.rix.si> - 0.7.0-2
 - Add SDL_image-devel BR per Kdenlive wiki page
 
