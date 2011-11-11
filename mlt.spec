@@ -8,8 +8,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.7.4
-Release:        2%{?dist}
+Version:        0.7.6
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -19,7 +19,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
-BuildRequires:  qt-devel
+BuildRequires:  qt4-devel
 BuildRequires:  libquicktime-devel
 BuildRequires:  SDL-devel
 BuildRequires:  gtk2-devel
@@ -52,21 +52,21 @@ Summary:        Libraries, includes to develop applications with %{name}
 License:        LGPLv2+
 Group:          Development/Libraries
 Requires:       pkgconfig
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 %package python
 Requires: python
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: Python package to work with MLT
 
 %package ruby
 Requires: ruby(abi) = 1.8
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}%{_isa} = %{version}-%{release}
 Summary: Ruby package to work with MLT
 
 %package php
 Requires: php
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}%[?_isa} = %{version}-%{release}
 Summary: PHP package to work with MLT
 
 %description devel
@@ -119,68 +119,76 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
-install -d $RPM_BUILD_ROOT%{python_sitelib}
-install -d $RPM_BUILD_ROOT%{python_sitearch}
-install -d $RPM_BUILD_ROOT%{ruby_sitelib}
-install -d $RPM_BUILD_ROOT%{ruby_sitearch}
-install -d $RPM_BUILD_ROOT%{php_extdir}
-install -pm 0644 src/swig/python/%{name}.py $RPM_BUILD_ROOT%{python_sitelib}/
-install -pm 0755 src/swig/ruby/play.rb $RPM_BUILD_ROOT%{ruby_sitelib}/
-install -pm 0755 src/swig/ruby/thumbs.rb $RPM_BUILD_ROOT%{ruby_sitelib}/
-install -pm 0755 src/swig/ruby/%{name}.so $RPM_BUILD_ROOT%{ruby_sitearch}/
-install -pm 0755 src/swig/python/_%{name}.so $RPM_BUILD_ROOT%{python_sitearch}/
-install -pm 0755 src/swig/php/%{name}.so $RPM_BUILD_ROOT%{php_extdir}/
+
+# manually do what 'make install' skips
+install -D -pm 0644 src/swig/python/mlt.py $RPM_BUILD_ROOT%{python_sitelib}/mlt.py
+install -D -pm 0755 src/swig/ruby/play.rb $RPM_BUILD_ROOT%{ruby_sitelib}/play.rb
+install -D -pm 0755 src/swig/ruby/thumbs.rb $RPM_BUILD_ROOT%{ruby_sitelib}/thumbs.rb
+install -D -pm 0755 src/swig/ruby/mlt.so $RPM_BUILD_ROOT%{ruby_sitearch}/mlt.so
+install -D -pm 0755 src/swig/python/_mlt.so $RPM_BUILD_ROOT%{python_sitearch}/_mlt.so
+install -D -pm 0755 src/swig/php/mlt.so $RPM_BUILD_ROOT%{php_extdir}/mlt.so
 
 mv src/modules/motion_est/README README.motion_est
+
+
+%check
+# verify pkg-config version sanity
+export PKG_CONFIG_PATH=%{buildroot}%{_datadir}/pkgconfig:%{buildroot}%{_libdir}/pkgconfig
+test "$(pkg-config --modversion mlt-framework)" = "%{version}"
+test "$(pkg-config --modversion mlt++)" = "%{version}"
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
 %post -p /sbin/ldconfig
-
-
 %postun -p /sbin/ldconfig
-
 
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING GPL NEWS README*
-%{_bindir}/%{name}-melt
-%{_libdir}/%{name}
-%{_libdir}/*.so.*
-%{_datadir}/%{name}
-
+%{_bindir}/mlt-melt
+%{_libdir}/mlt/
+%{_libdir}/libmlt++.so.%{version}
+%{_libdir}/libmlt++.so.3*
+%{_libdir}/libmlt.so.%{version}
+%{_libdir}/libmlt.so.4*
+%{_datadir}/mlt/
 
 %files python
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING GPL NEWS README*
-%{python_sitelib}/%{name}.py
-%{python_sitelib}/%{name}.pyc
-%{python_sitelib}/%{name}.pyo
-%{python_sitearch}/_%{name}.so
+%{python_sitelib}/mlt.py*
+%{python_sitearch}/_mlt.so
 
 %files ruby
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING GPL NEWS README*
 %{ruby_sitelib}/play.rb
 %{ruby_sitelib}/thumbs.rb
-%{ruby_sitearch}/%{name}.so
+%{ruby_sitearch}/mlt.so
 
 %files php
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING GPL NEWS README*
-%{php_extdir}/%{name}.so
+%{php_extdir}/mlt.so
 
 %files devel
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING GPL NEWS README* docs/* demo
-%{_libdir}/pkgconfig/*
-%{_libdir}/*.so
-%{_includedir}/*
+%doc docs/* demo/
+%{_libdir}/pkgconfig/mlt-framework.pc
+%{_libdir}/pkgconfig/mlt++.pc
+%{_libdir}/libmlt.so
+%{_libdir}/libmlt++.so
+%{_includedir}/mlt/
+%{_includedir}/mlt++/
 
 
 %changelog
+* Fri Nov 11 2011 Rex Dieter <rdieter@fedoraproject.org> 0.7.6-1
+- 0.7.6
+- track files/sonames closer
+- tighten subpkg deps via %%{?_isa}
+- drop dup'd %%doc items
+
 * Mon Sep 26 2011 Nicolas Chauvet <kwizart@gmail.com> - 0.7.4-2
 - Rebuilt for ffmpeg-0.8
 
