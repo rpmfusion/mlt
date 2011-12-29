@@ -9,7 +9,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -66,7 +66,7 @@ Summary: Ruby package to work with MLT
 
 %package php
 Requires: php
-Requires: %{name}%[?_isa} = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: PHP package to work with MLT
 
 %description devel
@@ -183,6 +183,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 29 2011 Ryan Rix <ry@n.rix.si> 0.7.6-3
+- s/%%[?_isa}/%%{?_isa}
+
 * Tue Nov 15 2011 Rex Dieter <rdieter@fedoraproject.org> 0.7.6-2
 - rebuild
 
