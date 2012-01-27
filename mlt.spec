@@ -9,12 +9,13 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
+Patch0:         mlt-gcc47_1.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  frei0r-devel
@@ -85,6 +86,7 @@ This module allows to work with MLT using PHP.
 
 %prep
 %setup -q
+%patch0 -p1
 find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
 chmod 644 src/modules/qimage/kdenlivetitle_wrapper.cpp
@@ -183,6 +185,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 27 2012 Ryan Rix <ry@n.rix.si> 0.7.6-5
+- Include patch to fix building on gcc47 (upstreaming)
+
 * Wed Jan 25 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.7.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
