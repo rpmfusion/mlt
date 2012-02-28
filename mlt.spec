@@ -9,7 +9,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -185,6 +185,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 28 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.7.6-6
+- Rebuilt for x264/FFmpeg
+
 * Fri Jan 27 2012 Ryan Rix <ry@n.rix.si> 0.7.6-5
 - Include patch to fix building on gcc47 (upstreaming)
 
