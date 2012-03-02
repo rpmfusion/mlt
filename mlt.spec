@@ -9,7 +9,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.6
-Release:        6%{?dist}
+Release:        7%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -185,6 +185,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Mar 02 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.7.6-7
+- Rebuilt for c++ ABI breakage
+
 * Tue Feb 28 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.7.6-6
 - Rebuilt for x264/FFmpeg
 
