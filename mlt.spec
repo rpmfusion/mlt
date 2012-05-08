@@ -9,7 +9,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.6
-Release:        7%{?dist}
+Release:        8%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -185,6 +185,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 08 2012 Rex Dieter <rdieter@fedoraproject.org> 0.7.6-8
+- rebuild (sox)
+
 * Fri Mar 02 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.7.6-7
 - Rebuilt for c++ ABI breakage
 
