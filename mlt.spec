@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -34,7 +34,7 @@ BuildRequires:  python-devel
 BuildRequires:  ruby-devel ruby
 BuildRequires:  SDL_image-devel
 
-%global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{_libdir}/.*\\.so$
+%global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{php_extdir}/.*\\.so$
 
 
 %description
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 14 2012 Remi Collet <remi@fedoraproject.org> 0.7.8-3
+- fix filter
+
 * Thu Jun 14 2012 Remi Collet <remi@fedoraproject.org> 0.7.8-2
 - update PHP requirement for PHP Guildelines
 - add php extension configuration file
