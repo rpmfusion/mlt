@@ -2,14 +2,12 @@
 %{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%global php_apiver  %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP API => //p') | tail -1)
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
-%global php_version %(php-config --version 2>/dev/null || echo 0)
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.7.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -33,9 +31,11 @@ BuildRequires:  libxml2-devel
 BuildRequires:  sox-devel
 BuildRequires:  swig
 BuildRequires:  python-devel
-BuildRequires:  php-devel
 BuildRequires:  ruby-devel ruby
 BuildRequires:  SDL_image-devel
+
+%global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{_libdir}/.*\\.so$
+
 
 %description
 MLT is an open source multimedia framework, designed and developed for 
@@ -65,7 +65,9 @@ Requires: %{name}%{_isa} = %{version}-%{release}
 Summary: Ruby package to work with MLT
 
 %package php
-Requires: php
+BuildRequires: php-devel
+Requires: php(zend-abi) = %{php_zend_api}
+Requires: php(api) = %{php_core_api}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: PHP package to work with MLT
 
@@ -127,6 +129,11 @@ install -D -pm 0755 src/swig/ruby/thumbs.rb $RPM_BUILD_ROOT%{ruby_sitelib}/thumb
 install -D -pm 0755 src/swig/ruby/mlt.so $RPM_BUILD_ROOT%{ruby_sitearch}/mlt.so
 install -D -pm 0755 src/swig/python/_mlt.so $RPM_BUILD_ROOT%{python_sitearch}/_mlt.so
 install -D -pm 0755 src/swig/php/mlt.so $RPM_BUILD_ROOT%{php_extdir}/mlt.so
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
+cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/mlt.ini << 'EOF'
+; Enable mlt extension module
+extension=mlt.so
+EOF
 
 mv src/modules/motion_est/README README.motion_est
 
@@ -169,6 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files php
 %defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/php.d/mlt.ini
 %{php_extdir}/mlt.so
 
 %files devel
@@ -183,6 +191,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 14 2012 Remi Collet <remi@fedoraproject.org> 0.7.8-2
+- update PHP requirement for PHP Guildelines
+- add php extension configuration file
+- filter php private shared so
+
 * Tue May 08 2012 Rex Dieter <rdieter@fedoraproject.org> 0.7.8-1
 - 0.7.8
 
