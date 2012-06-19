@@ -160,7 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libmlt++.so.%{version}
 %{_libdir}/libmlt++.so.3*
 %{_libdir}/libmlt.so.%{version}
-%{_libdir}/libmlt.so.4*
+%{_libdir}/libmlt.so.5*
 %{_datadir}/mlt/
 
 %files python
