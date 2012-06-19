@@ -6,8 +6,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.7.8
-Release:        3%{?dist}
+Version:        0.8.0
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 19 2012 Richard Shaw <hobbes1069@gmail.com> - 0.8.0-1
+- Update to latest upstream release.
+
 * Thu Jun 14 2012 Remi Collet <remi@fedoraproject.org> 0.7.8-3
 - fix filter
 
