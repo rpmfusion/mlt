@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.8.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 26 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.8.0-2
+- Rebuilt for FFmpeg
+
 * Tue Jun 19 2012 Richard Shaw <hobbes1069@gmail.com> - 0.8.0-1
 - Update to latest upstream release.
 
