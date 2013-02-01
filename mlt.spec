@@ -60,7 +60,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: Python package to work with MLT
 
 %package ruby
-Requires: ruby(abi) = 1.9
+Requires: ruby(abi) = 1.9.1
 Requires: %{name}%{_isa} = %{version}-%{release}
 Summary: Ruby package to work with MLT
 
