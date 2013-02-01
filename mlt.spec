@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.8.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -60,7 +60,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: Python package to work with MLT
 
 %package ruby
-Requires: ruby(abi) = 1.8
+Requires: ruby(abi) = 1.9
 Requires: %{name}%{_isa} = %{version}-%{release}
 Summary: Ruby package to work with MLT
 
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Feb 1  2013 Ryan Rix <ry@n.rix.si> - 0.8.8-1
+- Fix ABI requirement to Ruby 1.9
+
 * Fri Feb 1  2013 Ryan Rix <ry@n.rix.si> - 0.8.8-1
 - Update to 0.8.8
 
