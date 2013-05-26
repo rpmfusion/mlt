@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.8.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -191,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun May 26 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8.8-4
+- Rebuilt for x264/FFmpeg
+
 * Sun Apr 28 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8.8-3
 - https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
