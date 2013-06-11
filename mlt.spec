@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.8.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -18,6 +18,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
 BuildRequires:  qt4-devel
+BuildRequires:  kdelibs4-devel
 BuildRequires:  libquicktime-devel
 BuildRequires:  SDL-devel
 BuildRequires:  gtk2-devel
@@ -31,8 +32,13 @@ BuildRequires:  libxml2-devel
 BuildRequires:  sox-devel
 BuildRequires:  swig
 BuildRequires:  python-devel
-BuildRequires:  ruby-devel ruby
 BuildRequires:  SDL_image-devel
+
+%if 0%{?ruby:1}
+BuildRequires:  ruby-devel ruby
+%else
+Obsoletes: mlt-ruby < 0.8.8-5
+%endif
 
 %global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{php_extdir}/.*\\.so$
 
@@ -87,6 +93,7 @@ This module allows to work with MLT using PHP.
 
 %prep
 %setup -q
+
 find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
 chmod 644 src/modules/qimage/kdenlivetitle_wrapper.cpp
@@ -94,7 +101,7 @@ chmod 644 src/modules/kdenlive/filter_freeze.c
 chmod -x demo/demo
 
 
-# Don't optimize (breaks debugging)
+# Don't overoptimize (breaks debugging)
 sed -i -e '/fomit-frame-pointer/d' configure
 sed -i -e '/ffast-math/d' configure
 
@@ -113,7 +120,7 @@ sed -i -e '/ffast-math/d' configure
         --qimage-includedir=%{_qt4_headerdir}   \
         --rename-melt=%{name}-melt              \
         --avformat-swscale                      \
-        --swig-languages='python php ruby'
+        --swig-languages="python php %{?ruby:ruby}"
 
 make %{?_smp_mflags}
 
@@ -124,9 +131,11 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 # manually do what 'make install' skips
 install -D -pm 0644 src/swig/python/mlt.py $RPM_BUILD_ROOT%{python_sitelib}/mlt.py
+%if 0%{?ruby}
 install -D -pm 0755 src/swig/ruby/play.rb $RPM_BUILD_ROOT%{ruby_sitelib}/play.rb
 install -D -pm 0755 src/swig/ruby/thumbs.rb $RPM_BUILD_ROOT%{ruby_sitelib}/thumbs.rb
 install -D -pm 0755 src/swig/ruby/mlt.so $RPM_BUILD_ROOT%{ruby_sitearch}/mlt.so
+%endif
 install -D -pm 0755 src/swig/python/_mlt.so $RPM_BUILD_ROOT%{python_sitearch}/_mlt.so
 install -D -pm 0755 src/swig/php/mlt.so $RPM_BUILD_ROOT%{php_extdir}/mlt.so
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
@@ -168,11 +177,13 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/mlt.py*
 %{python_sitearch}/_mlt.so
 
+%if 0%{?ruby}
 %files ruby
 %defattr(-,root,root,-)
 %{ruby_sitelib}/play.rb
 %{ruby_sitelib}/thumbs.rb
 %{ruby_sitearch}/mlt.so
+%endif
 
 %files php
 %defattr(-,root,root,-)
@@ -191,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun 10 2013 Rex Dieter <rdieter@fedoraproject.org> 0.8.8-5
+- mlt-ruby FTBFS, omit until fixed (#2816)
+
 * Sun May 26 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8.8-4
 - Rebuilt for x264/FFmpeg
 
