@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.8.8
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -202,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Aug 15 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8.8-6
+- Rebuilt for FFmpeg 2.0.x
+
 * Mon Jun 10 2013 Rex Dieter <rdieter@fedoraproject.org> 0.8.8-5
 - mlt-ruby FTBFS, omit until fixed (#2816)
 
