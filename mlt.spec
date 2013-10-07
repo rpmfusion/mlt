@@ -6,8 +6,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.8.8
-Release:        7%{?dist}
+Version:        0.9.0
+Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -166,10 +166,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog COPYING GPL NEWS README*
 %{_bindir}/mlt-melt
 %{_libdir}/mlt/
-%{_libdir}/libmlt++.so.%{version}
-%{_libdir}/libmlt++.so.3*
-%{_libdir}/libmlt.so.%{version}
-%{_libdir}/libmlt.so.5*
+%{_libdir}/libmlt++.so.*
+%{_libdir}/libmlt.so.*
 %{_datadir}/mlt/
 
 %files python
@@ -202,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 07 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-1
+- Update to 0.9.0
+
 * Wed Oct 02 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8.8-7
 - Rebuilt
 
