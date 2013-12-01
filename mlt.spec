@@ -1,5 +1,5 @@
-%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts Config::CONFIG["sitelibdir"] ')}
-%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
+%{!?ruby_sitelib: %global ruby_sitelib %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitelibdir"] ')}
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitearchdir"] ')}
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -110,6 +110,7 @@ sed -i -e '/ffast-math/d' configure
 #export STRIP=/bin/true
 %configure \
         --enable-gpl                            \
+        --enable-gpl3                            \
         --enable-motion-est                     \
 %ifarch ppc ppc64 
         --disable-mmx                           \
@@ -126,7 +127,6 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make DESTDIR=$RPM_BUILD_ROOT install
 
 # manually do what 'make install' skips
@@ -152,10 +152,6 @@ mv src/modules/motion_est/README README.motion_est
 export PKG_CONFIG_PATH=%{buildroot}%{_datadir}/pkgconfig:%{buildroot}%{_libdir}/pkgconfig
 test "$(pkg-config --modversion mlt-framework)" = "%{version}"
 test "$(pkg-config --modversion mlt++)" = "%{version}"
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 
 %post -p /sbin/ldconfig
@@ -200,6 +196,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 20 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-2
+- Enable gplv3 as asked in rfbz #3040
+- Fix a changelog date.
+- Fix Ruby warning with rpmbuild "Use RbConfig instead of obsolete and deprecated Config". 
+- Remove obsolete tag %clean and rm -rf 
+
 * Mon Oct 07 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-1
 - Update to 0.9.0
 
@@ -337,7 +339,7 @@ rm -rf $RPM_BUILD_ROOT
 - new release
 - MLT++  is now a part of this package
 
-* Fri May  7 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.3.8-3
+* Fri May  8 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.3.8-3
 - unused-direct-shlib-dependency fix
 
 * Fri Apr 17 2009 Zarko Pintar <zarko.pintar@gmail.com> - 0.3.8-2
