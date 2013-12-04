@@ -7,9 +7,9 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 
-License:        GPLv2+ and LGPLv2+
+License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
@@ -196,6 +196,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Wed Dec 04 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-3
+- Update License tag .
+
 * Wed Nov 20 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-2
 - Enable gplv3 as asked in rfbz #3040
 - Fix a changelog date.
