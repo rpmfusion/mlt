@@ -7,13 +7,13 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch1:         mlt-0.9.0-fix_freetype.patch
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
@@ -33,6 +33,7 @@ BuildRequires:  sox-devel
 BuildRequires:  swig
 BuildRequires:  python-devel
 BuildRequires:  SDL_image-devel
+BuildRequires:  freetype-devel
 
 %if 0%{?ruby:1}
 BuildRequires:  ruby-devel ruby
@@ -93,6 +94,9 @@ This module allows to work with MLT using PHP.
 
 %prep
 %setup -q
+%if 0%{?fedora} >= 21
+%patch1 -p1 -b .freetype_fix
+%endif
 
 find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
@@ -196,6 +200,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Sun Mar 30 2014 Sérgio Basto <sergio@serjux.com> - 0.9.0-4
+- Rebuilt for ffmpeg-2.2 and fix for freetype2 changes.
+
 * Wed Dec 04 2013 Sérgio Basto <sergio@serjux.com> - 0.9.0-3
 - Update License tag .
 
