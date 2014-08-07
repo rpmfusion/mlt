@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -200,6 +200,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Thu Aug 07 2014 Sérgio Basto <sergio@serjux.com> - 0.9.0-6
+- Rebuilt for ffmpeg-2.3
+
 * Sat Jul 26 2014 Sérgio Basto <sergio@serjux.com> - 0.9.0-5
 - Rebuild for new php, need by mlt-php
 
