@@ -6,14 +6,13 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.9.0
-Release:        6%{?dist}
+Version:        0.9.2
+Release:        1%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
-Patch1:         mlt-0.9.0-fix_freetype.patch
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
@@ -94,13 +93,8 @@ This module allows to work with MLT using PHP.
 
 %prep
 %setup -q
-%if 0%{?fedora} >= 21
-%patch1 -p1 -b .freetype_fix
-%endif
 
-find ./ -name configure -exec chmod 755 {} \;
 chmod 755 src/modules/lumas/create_lumas
-chmod 644 src/modules/qimage/kdenlivetitle_wrapper.cpp
 chmod 644 src/modules/kdenlive/filter_freeze.c
 chmod -x demo/demo
 
@@ -200,6 +194,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Mon Sep 15 2014 Sérgio Basto <sergio@serjux.com> - 0.9.2-1
+- New upstream release.
+
 * Thu Aug 07 2014 Sérgio Basto <sergio@serjux.com> - 0.9.0-6
 - Rebuilt for ffmpeg-2.3
 
