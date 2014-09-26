@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -194,6 +194,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Fri Sep 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 0.9.2-2
+- Rebuilt for FFmpeg 2.4.x
+
 * Mon Sep 15 2014 Sérgio Basto <sergio@serjux.com> - 0.9.2-1
 - New upstream release.
 
