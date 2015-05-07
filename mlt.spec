@@ -6,8 +6,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.9.2
-Release:        3%{?dist}
+Version:        0.9.6
+Release:        1%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -16,6 +16,7 @@ Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
+BuildRequires:  opencv-devel
 BuildRequires:  qt4-devel
 BuildRequires:  kdelibs4-devel
 BuildRequires:  libquicktime-devel
@@ -33,6 +34,7 @@ BuildRequires:  swig
 BuildRequires:  python-devel
 BuildRequires:  SDL_image-devel
 BuildRequires:  freetype-devel
+BuildRequires:  libexif-devel
 
 %if 0%{?ruby:1}
 BuildRequires:  ruby-devel ruby
@@ -194,6 +196,13 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Thu May 07 2015 Sérgio Basto <sergio@serjux.com> - 0.9.6-1
+- Update mlt to 0.9.6 .
+- Added BuildRequires of libexif-devel .
+
+* Thu May 07 2015 Sérgio Basto <sergio@serjux.com> - 0.9.2-4
+- Added BuildRequires of opencv-devel, rfbz #3523 .
+
 * Mon Oct 20 2014 Sérgio Basto <sergio@serjux.com> - 0.9.2-3
 - Rebuilt for FFmpeg 2.4.3
 
