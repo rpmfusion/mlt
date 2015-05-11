@@ -7,7 +7,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        0.9.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -41,6 +41,8 @@ BuildRequires:  ruby-devel ruby
 %else
 Obsoletes: mlt-ruby < 0.8.8-5
 %endif
+
+Requires:  opencv-core
 
 %global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{php_extdir}/.*\\.so$
 
@@ -196,6 +198,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Mon May 11 2015 Sérgio Basto <sergio@serjux.com> - 0.9.6-2
+- Workaround #3523
+
 * Thu May 07 2015 Sérgio Basto <sergio@serjux.com> - 0.9.6-1
 - Update mlt to 0.9.6 .
 - Added BuildRequires of libexif-devel .
