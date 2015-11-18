@@ -6,8 +6,8 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.9.6
-Release:        2%{?dist}
+Version:        0.9.8
+Release:        1%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -198,6 +198,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Wed Nov 18 2015 Sérgio Basto <sergio@serjux.com> - 0.9.8-1
+- Update MLT to 0.9.8
+
 * Mon May 11 2015 Sérgio Basto <sergio@serjux.com> - 0.9.6-2
 - Workaround #3523
 
