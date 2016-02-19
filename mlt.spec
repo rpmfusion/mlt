@@ -6,21 +6,23 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        0.9.8
+Version:        6.0.0
 Release:        1%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
-Source:         http://downloads.sourceforge.net/mlt/%{name}-%{version}.tar.gz
+Source:         https://github.com/mltframework/mlt/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
 BuildRequires:  opencv-devel
-BuildRequires:  qt4-devel
-BuildRequires:  kdelibs4-devel
+BuildRequires:  qt5-qtsvg-devel
+BuildRequires:  qt5-qt3d-devel
+#BuildRequires:  kdelibs4-devel
 BuildRequires:  libquicktime-devel
 BuildRequires:  SDL-devel
+BuildRequires:  SDL_image-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  libogg-devel
@@ -32,9 +34,10 @@ BuildRequires:  libxml2-devel
 BuildRequires:  sox-devel
 BuildRequires:  swig
 BuildRequires:  python-devel
-BuildRequires:  SDL_image-devel
 BuildRequires:  freetype-devel
 BuildRequires:  libexif-devel
+BuildRequires:  fftw-devel
+BuildRequires:  xine-lib-devel
 
 %if 0%{?ruby:1}
 BuildRequires:  ruby-devel ruby
@@ -114,7 +117,7 @@ sed -i -e '/ffast-math/d' configure
         --enable-gpl                            \
         --enable-gpl3                            \
         --enable-motion-est                     \
-%ifarch ppc ppc64 
+%ifarch ppc ppc64
         --disable-mmx                           \
         --disable-sse                           \
         --disable-xine                          \
@@ -198,6 +201,13 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Fri Feb 19 2016 Sérgio Basto <sergio@serjux.com> - 6.0.0-1
+- Update 6.0.0 (This is a bugfix and minor enhancement release. Note that our
+  release versioning scheme has changed. We were approaching 1.0 but decided to
+  synchronize release version with the C library ABI version, which is currently
+  at v6)
+- Switch to qt5 to fix rfbz #3810 and copy some BRs from Debian package.
+
 * Wed Nov 18 2015 Sérgio Basto <sergio@serjux.com> - 0.9.8-1
 - Update MLT to 0.9.8
 
