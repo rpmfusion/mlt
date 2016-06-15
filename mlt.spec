@@ -2,14 +2,13 @@
 
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
-Version:        6.0.0
-Release:        2%{?dist}
+Version:        6.2.0
+Release:        1%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
 Group:          System Environment/Libraries
 Source0:        https://github.com/mltframework/mlt/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch1:         mlt-ruby.patch
 
 BuildRequires:  frei0r-devel
 BuildRequires:  ffmpeg-devel
@@ -36,6 +35,7 @@ BuildRequires:  freetype-devel
 BuildRequires:  libexif-devel
 BuildRequires:  fftw-devel
 BuildRequires:  xine-lib-devel
+BuildRequires:  pulseaudio-libs-devel
 
 %if %{with ruby}
 BuildRequires:  ruby-devel ruby
@@ -98,7 +98,6 @@ This module allows to work with MLT using PHP.
 
 %prep
 %setup -q
-%patch1 -p1
 
 chmod 644 src/modules/qt/kdenlivetitle_wrapper.cpp
 chmod 644 src/modules/kdenlive/filter_freeze.c
@@ -195,6 +194,10 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Wed May 25 2016 Sérgio Basto <sergio@serjux.com> - 6.2.0-1
+- Update MLT to 6.2.0
+- Drop backport patch.
+
 * Sun Feb 21 2016 Sérgio Basto <sergio@serjux.com> - 6.0.0-2
 - Add license tag. 
 - More spec modernizations and rpmlint fixes.
