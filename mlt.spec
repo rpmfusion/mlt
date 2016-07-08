@@ -3,7 +3,7 @@
 Summary:        Toolkit for broadcasters, video editors, media players, transcoders
 Name:           mlt
 Version:        6.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 License:        GPLv3 and LGPLv2+
 URL:            http://www.mltframework.org/twiki/bin/view/MLT/
@@ -30,7 +30,7 @@ BuildRequires:  ladspa-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  sox-devel
 BuildRequires:  swig
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires:  freetype-devel
 BuildRequires:  libexif-devel
 BuildRequires:  fftw-devel
@@ -71,7 +71,6 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 Summary: Python package to work with MLT
 
 %package ruby
-Requires: ruby(abi) = 1.9.1
 Requires: %{name}%{_isa} = %{version}-%{release}
 Summary: Ruby package to work with MLT
 
@@ -114,7 +113,7 @@ sed -i -e '/ffast-math/d' configure
         --enable-gpl                            \
         --enable-gpl3                            \
         --enable-motion-est                     \
-%ifarch ppc ppc64
+%ifnarch %{ix86} x86_64
         --disable-mmx                           \
         --disable-sse                           \
         --disable-xine                          \
@@ -194,6 +193,9 @@ test "$(pkg-config --modversion mlt++)" = "%{version}"
 
 
 %changelog
+* Fri Jul 08 2016 Sérgio Basto <sergio@serjux.com> - 6.2.0-2
+- Package review and fix mlt-ruby installation
+
 * Wed May 25 2016 Sérgio Basto <sergio@serjux.com> - 6.2.0-1
 - Update MLT to 6.2.0
 - Drop backport patch.
