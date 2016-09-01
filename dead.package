@@ -1,0 +1,1 @@
+MLT was packaged in Fedora proper without ffmpeg support on F25+ and epel7, now we got mlt-freeworld with ffmpeg support
